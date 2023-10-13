@@ -1,0 +1,131 @@
+* {
+  font-family: Arial, sans-serif;
+}
+
+.post-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Style for the user details modal */
+.modal-header {
+  background-color: #2185d0;
+  color: white;
+}
+
+/* Style for the modal content */
+.modal-content {
+  display: flex;
+  align-items: center;
+}
+
+/* Style for the image in the modal */
+.modal-image {
+  flex: 1;
+  max-width: 300px;
+  height: auto;
+  margin-right: 20px;
+}
+
+/* Style for the modal description */
+.modal-description {
+  flex: 2;
+}
+
+/* Style for buttons in the modal */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Style for the Cancel button */
+.modal-actions .cancel-button {
+  background-color: #333;
+  color: white;
+}
+
+/* Style for the Delete button */
+.modal-actions .delete-button {
+  background-color: red;
+  color: white;
+}
+
+/* Home.css */
+
+/* Styling for the post card */
+/* Styling for the post card with gradient background */
+.post-card {
+  background: linear-gradient(135deg, #f9f9f9, #1e90ff);
+  /* Gradient from light gray to Dodger Blue */
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+  margin-top: 60px;
+}
+
+
+/* Styling for the post title */
+.post-title {
+  font-size: 20px;
+  /* Increased font size */
+  font-weight: bold;
+  margin-bottom: 10px;
+  /* Center-align the title */
+  text-align: center;
+  /* Use white color to match the gradient */
+  color: white;
+}
+
+/* Styling for the post content input */
+.post-content-input {
+  width: 200%;
+  padding-left: 5px;
+  border: none;
+  background-color: transparent;
+  padding: 10px 0;
+  outline: none;
+  color: #555;
+  /* Center-align the content */
+  text-align: center;
+  font-size: 20px;
+
+}
+
+.post-description {
+  font-size: 1.2em;
+}
+
+/* Styling for the post tags */
+.post-tags {
+  font-size: 20px;
+  /* Increased font size */
+  margin-top: 10px;
+  /* Center-align the tags */
+  text-align: center;
+  /* Use white color to match the gradient */
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Styling for the View button */
+.post-view-button {
+  margin-top: 15px;
+  text-align: right;
+}
+
+
+
