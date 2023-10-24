@@ -122,10 +122,56 @@
 }
 
 /* Styling for the View button */
-.post-view-button {
+/* Styling for the View button */
+.ui.button.primary {
   margin-top: 15px;
   text-align: right;
 }
 
+/* Styling for the filter section container */
+.filter-section {
+  margin: 20px 0;
+  display: flex; /* Make filters display horizontally */
+  justify-content: space-between; /* Add space between filter inputs */
+}
 
+/* Styling for the filter section labels (Date, Title, Tag) */
+.filter-section input {
+  flex: 1;
+  padding: 10px; /* Adjust padding */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-right: 10px;
+  outline: none;
+  font-size: 16px;
+  background-color: #f5f5f5;
+  color: #333;
+  transition: border-color 0.3s, background-color 0.3s;
+}
 
+/* Styling for the filter input placeholder text */
+.filter-section input::placeholder {
+  color: #aaa;
+}
+
+/* Styling for the filter input when focused */
+.filter-section input:focus {
+  border-color: #1e90ff;
+  background-color: #fff;
+}
+
+/* Styling for the Filter button */
+.filter-section .ui.primary.button {
+  background-color: #1e90ff;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Styling for the Filter button on hover */
+.filter-section .ui.primary.button:hover {
+  background-color: #0077b6;
+}
