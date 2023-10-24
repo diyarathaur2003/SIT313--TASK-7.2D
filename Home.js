@@ -1,17 +1,20 @@
+
 import React, { useEffect, useState } from 'react';
 import { db } from './firebase';
-import { Container, Grid, Menu, Modal, Header, Button, Image } from 'semantic-ui-react'; // Import Modal components
+import { Container, Grid, Menu, Modal, Header, Button, Image } from 'semantic-ui-react';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { deleteDoc, doc } from 'firebase/firestore';
 import './Home.css';
 
-
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false); // State to manage modal visibility
-  const [selectedPost, setSelectedPost] = useState(null); // State to store the selected post
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [filterDate, setFilterDate] = useState('');
+  const [filterTitle, setFilterTitle] = useState('');
+  const [filterTag, setFilterTag] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,29 +37,24 @@ const Home = () => {
   }, []);
 
   const handleUserProfileClick = () => {
-    // Navigate to the user profile page
     navigate('/add');
   };
 
-  // Function to open the modal and set the selected post
   const handleViewClick = (post) => {
     setSelectedPost(post);
     setModalOpen(true);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setModalOpen(false);
     setSelectedPost(null);
   };
+
   const handleDelete = async (postId) => {
     if (window.confirm('Are you sure you want to delete?')) {
       try {
-        // Delete the post from Firestore
         await deleteDoc(doc(db, 'posts', postId));
-        // Remove the deleted post from the local state (UI)
         setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-        // Close the modal (if it's open)
         closeModal();
       } catch (err) {
         console.log(err);
@@ -64,23 +62,33 @@ const Home = () => {
     }
   };
 
+  const formatFirestoreDate = (timestamp) => {
+    if (timestamp && typeof timestamp.toDate === 'function') {
+      const date = new Date(timestamp.toDate());
+      return date.toISOString().split('T')[0]; // Formats the date as "Year-month-date"
+    }
+    return 'N/A';
+  };
+
   return (
     <div>
-      {/* Navbar */}
       <div
         style={{
           position: 'sticky',
           top: '0',
           zIndex: '100',
           background: 'black',
-          width: '100%', // Ensure it spans the entire width
+          width: '100%',
         }}
       >
         <Menu inverted>
           <Menu.Item>
             <strong>Dev@Deakin App</strong>
           </Menu.Item>
-          <Menu.Menu position="right">
+          <Menu.Item>
+            <strong>FIND QUESTIONS</strong>
+          </Menu.Item>
+          <Menu.Menu position=" right">
             <Menu.Item>
               <button className="ui primary button" onClick={handleUserProfileClick}>
                 Add User
@@ -90,42 +98,76 @@ const Home = () => {
         </Menu>
       </div>
 
-      {/* Main Content */}
       <Container>
+        <div className="filter-section">
+          <input
+            type="text"
+            placeholder="Filter by Date (YYYY-MM-DD)"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Title"
+            value={filterTitle}
+            onChange={(e) => setFilterTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Tag"
+            value={filterTag}
+            onChange={(e) => setFilterTag(e.target.value)}
+          />
+        </div>
         <Grid columns={1} stackable>
-          {posts &&
-            posts.map((item) => (
-              <Grid.Column key={item.id} className="post-card">
-                <div className="post-title">
-                  <strong>Title:</strong> {item.title}
-                </div>
-                <div className="post-description">
-                  <strong>Discription:</strong> {item.content}
-                  {/* <input type="text" value={item.content} /> */}
-                </div>
-                <div className="post-tags">
-                  <strong>Tags:</strong> {item.tags}
-                </div>
-                <div>
-                  <Button color="pink" onClick={() => handleViewClick(item)}>
-                    View
-                  </Button>
-                </div>
-              </Grid.Column>
-            ))}
+          {posts
+            .filter((post) => {
+              const lowerCaseTitle = post.title ? post.title.toLowerCase() : '';
+              const lowerCaseTag = post.tags ? post.tags.toLowerCase() : '';
+              const postDate = post.timestamp ? formatFirestoreDate(post.timestamp) : 'N/A';
+              const filterDateObj = filterDate ? filterDate : '';
+
+              return (
+                (!filterDateObj || postDate.includes(filterDateObj)) &&
+                lowerCaseTitle.includes(filterTitle.toLowerCase()) &&
+                lowerCaseTag.includes(filterTag.toLowerCase())
+              );
+            })
+            .map((item) => {
+              const postDate = item.timestamp ? formatFirestoreDate(item.timestamp) : 'N/A';
+              return (
+                <Grid.Column key={item.id} className="post-card">
+                  <div className="post-title">
+                    <strong>Title:</strong> {item.title}
+                  </div>
+                  <div className="post-description">
+                    <strong>Description:</strong> {item.content}
+                  </div>
+                  <div className="post-tags">
+                    <strong>Tags:</strong> {item.tags}
+                  </div>
+                  <div className="post-date">
+                    <strong>Date:</strong> {postDate}
+                  </div>
+                  <div>
+                    <Button color="pink" onClick={() => handleViewClick(item)}>
+                      View
+                    </Button>
+                  </div>
+                </Grid.Column>
+              );
+            })
+          }
         </Grid>
       </Container>
 
-      {/* Modal */}
       <Modal open={modalOpen} onClose={closeModal}>
         <Modal.Header>User Details</Modal.Header>
         <Modal.Content image>
           <Image size="medium" src={selectedPost?.img} wrapped />
           <Modal.Description>
             <Header>{selectedPost?.title}</Header>
-            {/* <p>{selectedPost?.abstract}</p> */}
             <p>{selectedPost?.content}</p>
-            {/* <p>{selectedPost?.articleText}</p> */}
             <p>{selectedPost?.tags}</p>
           </Modal.Description>
         </Modal.Content>
@@ -141,6 +183,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
