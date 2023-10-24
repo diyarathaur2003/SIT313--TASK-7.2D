@@ -14,7 +14,8 @@ const PostPage = () => {
   const [abstract, setAbstract] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [image, setImage] = useState(null);
-  const [imgURL, setImgURL] = useState(''); // Store the uploaded image URL
+  const [imgURL, setImgURL] = useState('');
+  const [selectedImageName, setSelectedImageName] = useState('');
   const navigate = useNavigate();
   const fileInputRef = React.useRef(null);
 
@@ -25,6 +26,12 @@ const PostPage = () => {
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
+
+    if (selectedImage) {
+      setSelectedImageName(selectedImage.name);
+    } else {
+      setSelectedImageName('');
+    }
   };
 
   const handleImageUpload = () => {
@@ -35,17 +42,15 @@ const PostPage = () => {
 
       uploadTask.on(
         'state_changed',
-        (snapshot) => {
-          // Handle upload progress if needed
-        },
+        (snapshot) => {},
         (error) => {
           console.error('Error uploading image:', error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref)
             .then((downloadURL) => {
-              setImgURL(downloadURL); // Store the uploaded image URL
-              handleSubmit(); // Call the submit function after the URL is set
+              setImgURL(downloadURL);
+              addImageURLToFirestore(downloadURL);
             })
             .catch((error) => {
               console.error('Error getting image URL:', error);
@@ -57,38 +62,69 @@ const PostPage = () => {
     }
   };
 
+  const addImageURLToFirestore = (downloadURL) => {
+    addDoc(collection(db, 'posts'), {
+      imageUrl: downloadURL,
+      timestamp: serverTimestamp(),
+    })
+      .then((docRef) => {
+        console.log('Image URL added to Firestore with ID: ', docRef.id);
+      })
+      .catch((error) => {
+        console.error('Error adding image URL to Firestore: ', error);
+      });
+  };
+
   const handleSubmit = async () => {
-    // Check for required fields and display an error message if any field is empty
-    if (
-      !title ||
-      !content ||
-      (postType === 'question' && !tags) ||
-      (postType === 'article' && !abstract)
-    ) {
-      setErrorMessage('Please fill in all the required fields.');
+    if (!title || !content) {
+      setErrorMessage('Please fill in the title and content fields.');
       navigate('/');
       return;
     }
-
+  
     try {
-      const postDocRef = await addDoc(collection(db, 'posts'), {
-        postType,
-        title,
-        content,
-        tags,
-        // abstract,
-        // imgURL,
-        timestamp: serverTimestamp(),
-      });
-
-      console.log('Post added with ID: ', postDocRef.id);
+      if (postType === 'question') {
+        if (!tags) {
+          setErrorMessage('Please fill in all the required fields.');
+          return;
+        }
+  
+        await addDoc(collection(db, 'posts'), {
+          postType,
+          title,
+          content,
+          tags,
+          timestamp: serverTimestamp(),
+          imageUrl: imgURL, // Include the image URL in the Firestore document for questions
+        });
+      } else if (postType === 'article') {
+        if (!abstract) {
+          setErrorMessage('Please fill in the abstract field.');
+          return;
+        }
+  
+        if (!imgURL) {
+          setErrorMessage('Please upload an image.');
+          return;
+        }
+  
+        await addDoc(collection(db, 'posts'), {
+          postType,
+          title,
+          content,
+          abstract,
+          timestamp: serverTimestamp(),
+          imageUrl: imgURL, // Include the image URL in the Firestore document for articles
+        });
+      }
+  
+      console.log('Post added successfully.');
       alert('Thank you for your response');
       setErrorMessage('');
     } catch (error) {
       console.error('Error adding post: ', error);
     }
   };
-
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -171,18 +207,36 @@ const PostPage = () => {
               <input
                 type="file"
                 accept="image/*"
-                style={{ display: 'none' }} // Hide the default file input
-                ref={fileInputRef} // Create a ref for the file input
+                style={{ display: 'none' }}
+                ref={fileInputRef}
                 onChange={handleImageChange}
               />
               <div className="button-container-1">
                 <button
                   className="button1"
-                  onClick={() => fileInputRef.current.click()} > Browse </button>
-                <button className="button2" onClick={handleImageUpload}> Upload </button>
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  Browse
+                </button>
+                <button className="button2" onClick={handleImageUpload}>
+                  Upload
+                </button>
               </div>
             </div>
+            {selectedImageName && (
+              <p className="selected-image-name">Selected Image: {selectedImageName}</p>
+            )}
           </>
+        )}
+      </div>
+      <div>
+        {selectedImageName && (
+          <div>
+            <label className="selected-image-label">
+              <b>Selected Image URL:</b>
+            </label>
+            <p className="selected-image-url">{imgURL}</p>
+          </div>
         )}
       </div>
       {postType === 'question' && (
@@ -200,7 +254,7 @@ const PostPage = () => {
             </label>
           </div>
           <div>
-            <label className="diya" >
+            <label className="diya">
               <b>Tags:</b>
             </label>
             <input
@@ -246,11 +300,7 @@ const PostPage = () => {
         </button>
       </div>
     </div>
-  );
-};
 
-export default PostPage;
-
-
-
-
+   );
+ };
+ export default PostPage;
