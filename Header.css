@@ -10,11 +10,11 @@ body {
     text-align: center;
     margin: 20px 0;
     background: linear-gradient(to bottom, #3498db, #2980b9);
-    /* Gradient background */
+
     color: white;
-    /* Text color */
+
     padding: 5px;
-    /* Add padding for spacing */
+
 }
 
 
@@ -53,7 +53,7 @@ input[type="radio"] {
     width: 95%;
     padding: 10px;
     margin: 2px 0;
-    /* border: 1px solid black; */
+
     border-radius: 4px;
     box-sizing: border-box;
 
@@ -65,7 +65,7 @@ input[type="radio"] {
 
 }
 
-/* Image Upload Styles */
+
 .img {
 
     font-size: 20px;
@@ -90,12 +90,12 @@ input[type="radio"] {
     padding: 10px 50px;
     cursor: pointer;
     transition: background-color 0.3s;
-    /* Add a smooth transition effect */
 
-    /* Add hover styles */
+
+
     &:hover {
         background-color: #0056b3;
-        /* Change background color on hover */
+
     }
 }
 
@@ -110,7 +110,7 @@ input[type="radio"] {
     height: 100px;
     padding: 10px;
     margin: 10px 0;
-    /* border: 1px solid black; */
+
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -135,36 +135,34 @@ b {
     height: 150px;
     padding: 10px;
     margin: 10px 0;
-    /* Increased margin to add more space */
-    /* border: 1px solid black; */
+
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 15px;
 
 }
 
-/* Article Textarea Styles */
+
 .bottom2 {
     width: 95%;
     height: 150px;
     padding: 10px;
     margin: 10px 0;
-    /* Increased margin to add more space */
-    /* border: 1px solid black; */
+
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 15px;
 
 }
 
-/* Error Message Styles */
+
 p {
     color: red;
     text-align: center;
     margin-top: 10px;
 }
 
-/* Button Container Styles */
+
 .button-container {
     text-align: center;
     margin-top: 20px;
@@ -183,16 +181,15 @@ p {
 
 .bottom1 {
     width: 95%;
-    /* padding: 10px; */
+
     margin: 10px 0;
-    /* Increased margin to add more space */
-    /* border: 1px solid #ccc; */
+
     border-radius: 4px;
     box-sizing: border-box;
     padding: 10px;
     font-size: 15px;
 
-    /* background-color: lightblue; */
+
 
 }
 
@@ -201,11 +198,11 @@ p {
 .button-container-1 {
     margin-left: 44%;
     gap: 5px;
-    /* Add 5px of space between buttons */
+
     margin-top: 10px;
     display: flex;
     flex-direction: row;
-    /* Change flex direction to column */
+
     padding-bottom: 20px;
 
 }
@@ -219,228 +216,8 @@ p {
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s;
-    /* Add a smooth transition effect */
 
-    /* Add hover styles */
     &:hover {
         background-color: #0056b3;
     }
 }
-
-/* * {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-weight: bold;
-    
-}
-
-h1 {
-    background-color: rgb(119, 136, 153);
-    font-size: 28px;
-}
-h3{
-    font-size: 100px;
-}
-
-.Select {
-    font-size: 20px;
-    text-align: center;
-    display:flex;
-    flex-direction: row;
-    margin-left: 600px;
-}
-.title input
-{
-    font-size: 100px;
-    width: 500px;
-    
-    
-}
-.t 
-{
-    margin-left: -516px;
-}
-.between.title input 
-{
-   margin-left: -10px;
-    width: 500px;
-}
-.bottom{
-    font-size: 20px;
-    margin-left: -130px;
-    padding-top: 20px;
-
-}
-.content
-{
-    width: 800px;
-    height: 200px;
-}
-
-.between {
-    margin-top: 10px;
-    font-size: 20px;
-    margin-left: 50px;
-
-}
-
-.bottom {
-    width: 726px;
-    margin-left: 620px;
-    display: flex; 
-    flex-direction: row;
-}
-
-.descript {
-    margin-top: 20px;
-    margin-left: 350px;
-    font-size: 20px;
-
-}
-
-.abs 
-{
-    text-align: center;
-    margin-left: -600px;
-}
-.bottom4
-{
-    display:flex;
-    flex-direction: row;
-    width: 795px;
-    margin-left: 365px;
-    
-}
-
-.Tags {
-    margin-top: 10px;
-    margin-left: 350px;
-    font-size: 20px;
-    
-}
-
-.Tags input {
-    width: 732px;
-    font-size: 17px;
-    margin-left: 4px;
-   
-   
-}
-
-button {
-    margin-top: 20px;
-    margin-left: 730px;
-    font-size: 20px;
-    background-color: darkcyan;
-    font-weight: bold;
-    width: 10%;
-}
-
-button:hover {
-    opacity: 0.3s;
-    background-color: rgb(95, 158, 160);
-}
-
-
-
-
-.Article {
-    margin-top: 10px;
-    font-size: 20px;
-    padding-left: 350px;
-}
-
-.Article textarea {
-    width: 790px;
-    height: 250px;
-    font-size: 20px;
-    display: flex;
-    flex-direction: row;
-}
-h1 
-{
-    text-align: center;
-}
-.diya
-{
-    margin-left: -460px;
-    font-size: 20px;
- 
-
-}
-.text input 
-{
-    width: 500px;
-}
-.Image 
-{
-    margin-left:350px;
-    padding-top: 20px;
-    font-size: 20px;
-    
-
-}
-.img 
-{
-    display:flex;
-    flex-direction: row;
-     margin-left: -420px;
-    justify-content: center;
-    padding-top:20px;
-}
-.input 
-{
-    margin-left: 9%;
-    margin-top: -20px;
-}
-.clicks button
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 2px;
-    
-    
-}
-.button1
-{
- 
-    
-}
-.Image input 
-{
-    width: 300px;
-}
-.imgbuttons button {
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: 350px;
-    margin-top: 2px; 
-    
-}
-.browse 
-{
-    margin-left: 200px;
-}
-.button 
-{
-    margin-top: 20px;
-    margin-left: 800px;
-    width: 100px;
-}
-.bottom2
-{
-    display: flex;
-    flex-direction: row;
-    width: 800px;
-    height: 100px;
-    margin-left: 308px
-     
-}
-.t{
-    font-size: 20px;
-    
-}
- */
-/* Header.css */
-
-/* Global Styles */
